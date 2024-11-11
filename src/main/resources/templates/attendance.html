@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #56CCF2, #2F80ED);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            padding: 30px 40px;
+            width: 100%;
+            max-width: 450px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2F80ED;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        p {
+            font-size: 16px;
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        select, button {
+            margin: 12px 0;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            width: 100%;
+            max-width: 350px;
+        }
+
+        select:focus, button:focus {
+            border-color: #2F80ED;
+            outline: none;
+        }
+
+        button {
+            background-color: #2F80ED;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #56CCF2;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 12px;
+            width: 300px;
+            text-align: center;
+        }
+
+        .modal button {
+            margin: 10px 5px;
+            padding: 10px;
+            background-color: #2F80ED;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+
+        .modal button:hover {
+            background-color: #56CCF2;
+        }
+
+        .close {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .close:hover {
+            background-color: #e53935;
+        }
+
+        @media (max-width: 500px) {
+            .container {
+                width: 85%;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Attendance</h2>
+    <form id="attendanceForm" method="POST" action="/attendance">
+        <input type="hidden" name="userId" th:value="${user.id}" />
+        <p>Welcome, <strong th:text="${user.firstName}"></strong>! Please fill your attendance for today.</p>
+
+        <select id="attendanceType" name="attendanceType">
+            <option value="WFO">Work from Office</option>
+            <option value="WFH">Work from Home</option>
+            <option value="LEAVE">Leave</option>
+            <option value="LEAVE_FIRST_HALF">Leave First Half</option>
+            <option value="LEAVE_SECOND_HALF">Leave Second Half</option>
+            <option value="COMP_OFF">Comp Off</option>
+        </select>
+
+        <button type="button" onclick="showConfirmationModal()">Submit</button>
+    </form>
+</div>
+
+<!-- The Modal -->
+<div id="confirmationModal" class="modal">
+    <div class="modal-content">
+        <h3>Confirm Attendance</h3>
+        <p id="confirmationMessage">Are you sure you want to select this option? You will not be able to alter it later.</p>
+        <button id="confirmBtn" onclick="submitForm()">Confirm</button>
+        <button class="close" onclick="closeModal()">Reselect</button>
+    </div>
+</div>
+
+<script>
+    function showConfirmationModal() {
+        var attendanceType = document.getElementById("attendanceType").value;
+        var message = "Are you sure you want to select the '" + attendanceType + "' option? You will not be able to alter it later.";
+        document.getElementById("confirmationMessage").textContent = message;
+        document.getElementById("confirmationModal").style.display = "flex";  // Show the modal
+    }
+
+    function closeModal() {
+        document.getElementById("confirmationModal").style.display = "none";  // Hide the modal
+    }
+
+    function submitForm() {
+        document.getElementById("attendanceForm").submit();  // Submit the form if confirmed
+    }
+</script>
+</body>
+</html>
