@@ -19,6 +19,8 @@ public class Attendance {
 
     private LocalDate date;
 
+    private String dayOfWeek; // New field for day of the week
+
     // Default constructor (required by JPA)
     public Attendance() {
     }
@@ -28,6 +30,14 @@ public class Attendance {
         this.user = user;
         this.type = type;
         this.date = date;
+    }
+
+    public String getDayOfWeek() {
+        return dayOfWeek;
+    }
+
+    public void setDayOfWeek(String dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
     }
 
     // Getters and Setters
@@ -71,6 +81,7 @@ public class Attendance {
                 ", user=" + user +
                 ", type=" + type +
                 ", date=" + date +
+                ", day="+dayOfWeek+
                 '}';
     }
 }

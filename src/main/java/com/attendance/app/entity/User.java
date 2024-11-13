@@ -92,6 +92,15 @@ public class User {
         this.attendanceRecords = attendanceRecords;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", team='" + team + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }
